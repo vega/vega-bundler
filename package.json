@@ -1,0 +1,41 @@
+{
+  "name": "vega-bundler",
+  "version": "0.0.1",
+  "description": "Compile optimized Vega and Vega-Lite bundles.",
+  "author": "Jeffrey Heer",
+  "license": "BSD-3-Clause",
+  "main": "build/vega-bundler.js",
+  "keywords": [
+    "vega",
+    "vega-lite",
+    "visualization",
+    "chart",
+    "bundle"
+  ],
+  "scripts": {
+    "prebuild": "rimraf build",
+    "build": "rollup -c --config-node",
+    "pretest": "yarn build",
+    "test": "TZ=America/Los_Angeles tape 'test/**/*-test.js'"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/plugin-transform-runtime": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-virtual": "2.0.3",
+    "eslint": "^7.23.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.45.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "tape": "^5.2.2",
+    "terser": "^5.6.1",
+    "vega": "^5.20.2",
+    "vega-lite": "^5.0.0",
+    "yargs": "16.2.0"
+  }
+}

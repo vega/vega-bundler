@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Vega Bundle Test</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bundle.min.js"></script>
+  </head>
+  <body>
+    <div id="view0"></div>
+    <div id="view1"></div>
+  </body>
+  <script>
+    const view0 = vegaBundle.spec0({
+      container: '#view0',
+      renderer:  'svg',
+      hover:     true
+    });
+    view0.runAsync();
+
+    const view1 = vegaBundle.spec1({
+      container: '#view1',
+      renderer:  'svg',
+      hover:     true
+    });
+    view1.runAsync();
+  </script>
+</html>

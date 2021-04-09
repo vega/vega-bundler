@@ -4,7 +4,7 @@ Utilities for pre-parsing Vega and Vega-Lite specifications and producing optimi
 
 Both and Vega and Vega-Lite have their own parser and compiler. Vega-Lite specifications compile to full Vega specifications, which in turn are parsed to an intermediate dataflow specification that serves as input to an instantiated Vega view. In addition, Vega provides a number of data and visual encoding transforms, but not all of them may be needed within a given a deployment.
 
-To reduce both file size and loading time, this package pre-parses input specifications and generate optimized code bundles that include only the underlying transforms that are actually used.
+To reduce both file size and loading time, this package pre-parses input specifications and generates optimized code bundles that omit the parsers and include only the underlying transforms that are actually used. This can result in substantial savings, especially when using Vega-Lite.
 
 ## API Reference
 

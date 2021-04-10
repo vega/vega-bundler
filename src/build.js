@@ -25,10 +25,10 @@ function inputPlugins(code, options) {
     json()
   ]
 
-  // early exit if babel is explicitly disabled
-  if (options.babel === false) return plugins;
+  // early exit if transpilation is explicitly disabled
+  if (options.transpile === false) return plugins;
 
-  // add babel transpilation
+  // add transpilation via babel
   const targets = options.targets || 'defaults and not IE 11';
   plugins.push(
     babel({

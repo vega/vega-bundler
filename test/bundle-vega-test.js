@@ -5,17 +5,17 @@ const specs = [
   {
     name: 'arc',
     spec: require('./specs/arc.vg.json'),
-    size: 303841
+    size: 303847
   },
   {
     name: 'bar',
     spec: require('./specs/bar.vg.json'),
-    size: 313642
+    size: 313648
   },
   {
     name: 'violin',
     spec: require('./specs/violin.vg.json'),
-    size: 319573
+    size: 319579
   },
 ];
 
@@ -36,7 +36,7 @@ tape('Bundle Vega test specifications', async t => {
   bundled = await bundle(combined);
   t.equal(
     bundled.length,
-    337370,
+    337376,
     'combined bundle size matches expectation'
   );
 

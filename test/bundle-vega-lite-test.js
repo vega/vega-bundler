@@ -5,22 +5,22 @@ const specs = [
   {
     name: 'bar',
     spec: require('./specs/bar.vl.json'),
-    size: 320743
+    size: 320749
   },
   {
     name: 'hist2d',
     spec: require('./specs/hist-2d.vl.json'),
-    size: 328129
+    size: 328135
   },
   {
     name: 'index',
     spec: require('./specs/index-chart.vl.json'),
-    size: 353390
+    size: 353396
   },
   {
     name: 'seattle',
     spec: require('./specs/seattle-weather.vl.json'),
-    size: 382603
+    size: 382609
   },
 ];
 
@@ -41,7 +41,7 @@ tape('Bundle Vega-Lite test specifications', async t => {
   bundled = await bundle(combined);
   t.equal(
     bundled.length,
-    485062,
+    485068,
     'combined bundle size matches expectation'
   );
 

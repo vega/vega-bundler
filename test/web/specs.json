@@ -1,0 +1,5 @@
+{
+  "arc": "test/specs/arc.vg.json",
+  "bar": "test/specs/bar.vg.json",
+  "violin": "test/specs/violin.vg.json"
+}

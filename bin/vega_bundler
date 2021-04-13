@@ -1,0 +1,110 @@
+#!/usr/bin/env node
+const { readFileSync, writeFile } = require('fs');
+const { Bundle } = require('../build/vega-bundler');
+
+/**
+ * Configure and run command line argument parser.
+ * @return {object} Parsed command line arguments.
+ */
+function args() {
+  const helpText = `Compile Vega or Vega-Lite specifications into an optimized bundle.
+Usage: vega_bundler [options] spec_files
+  If the "output" option is unspecified, writes generated code to stdout.
+  For errors and log messages, writes to stderr.`;
+
+  const args = require('yargs')
+    .usage(helpText)
+    .demand(0);
+
+  args.string('o')
+    .alias('o', 'output')
+    .describe('o', 'Output file to write bundled code.'
+      + ' If omitted, writes to standard output.');
+
+  args.string('m')
+    .alias('m', 'manifest')
+    .describe('m', 'JSON file mapping specification names to files.'
+      + ' If omitted, spec1, spec2, ...specN naming is used.'
+      + ' If provided, the spec_files input is ignored.');
+
+  args.boolean('include')
+    .default('include', true)
+    .describe('include', 'Include Vega runtime dataflow specifications'
+      + ' in the bundle. If false, the dataflow specifications are'
+      + ' omitted from the bundle and written to individual files.');
+
+  args.boolean('minify')
+    .default('minify', true)
+    .describe('minify', 'Minify output code using terser.');
+
+  args.string('format')
+    .describe('format', 'The output bundle format.'
+      + ' One of "umd" (default, universal module definition),'
+      + ' "iife" (immediately-invoked function expression), or'
+      + ' "es" (EcmaScript module).');
+
+  args.string('name')
+    .describe('name', 'The output bundle name.'
+      + ' This is the global variable name for the bundle'
+      + ' when loaded via the <script> tag.');
+
+  args.boolean('transpile')
+    .default('transpile', true)
+    .describe('transpile', 'Transpile code using Babel.');
+
+  args.string('targets')
+    .describe('targets', 'Transpilation target platforms.'
+      + ' Ignored if transpile is false.');
+
+  const { argv } = args.help().version();
+
+  // privately alias 'include' to 'specs'
+  argv.specs = argv.include;
+
+  return argv;
+};
+
+/**
+ * Run the bundler and write resulting files.
+ * @param {object} args Parsed command line arguments.
+ */
+async function run(args) {
+  const bundle = new Bundle();
+
+  if (args.manifest) {
+    // load specifications from manifest
+    const specs = JSON.parse(readFileSync(args.manifest));
+    for (const name in specs) {
+      bundle.add(name, JSON.parse(readFileSync(specs[name])));
+    }
+  } else {
+    // for each input file, add to bundle
+    args._.forEach((file, i) => {
+      const name = 'spec' + (i + 1);
+      bundle.add(name, JSON.parse(readFileSync(file)));
+    });
+  }
+
+  // parse and bundle Vega(-Lite) specifications
+  const code = await bundle.build(args);
+
+  // write to file or standard output
+  args.output
+    ? writeFile(args.output, code, err => { if (err) throw err; })
+    : process.stdout.write(code);
+
+  // write runtime specs to files if not included in bundle
+  if (!args.include) {
+    const specs = bundle.getDataflowSpecs();
+    for (const name in specs) {
+      writeFile(
+        `${name}.json`,
+        JSON.stringify(specs[name]),
+        err => { if (err) throw err; }
+      );
+    }
+  }
+}
+
+// parse command line arguments and run bundler
+run(args());

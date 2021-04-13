@@ -5,25 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .marks {
+        border: 1px dashed #ccc;
+      }
+    </style>
     <script src="bundle.min.js"></script>
   </head>
   <body>
-    <div id="view0"></div>
     <div id="view1"></div>
+    <div id="view2"></div>
+    <div id="view3"></div>
   </body>
   <script>
-    const view0 = vegaBundle.spec0({
-      container: '#view0',
-      renderer:  'svg',
-      hover:     true
-    });
-    view0.runAsync();
-
-    const view1 = vegaBundle.spec1({
+    const view1 = vegaBundle.arc({
       container: '#view1',
       renderer:  'svg',
       hover:     true
     });
     view1.runAsync();
+
+    const view2 = vegaBundle.bar({
+      container: '#view2',
+      renderer:  'svg',
+      hover:     true
+    });
+    view2.runAsync();
+
+    const view3 = vegaBundle.violin({
+      container: '#view3',
+      renderer:  'svg',
+      hover:     true
+    });
+    view3.runAsync();
   </script>
 </html>
